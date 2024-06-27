@@ -1,0 +1,77 @@
+<!-- Declares the document type -->
+<!DOCTYPE html>
+<!-- Specify the language of the document as English -->
+<html lang="en">
+<head>
+  <!-- Set the character encoding to UTF-8  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Data Table</title>
+  <!-- Includes the jQuery library for easier manipulation of the DOM. -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 18px;
+      text-align: left;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    table th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+    <h1>Product </h1>
+    <table>
+        <thead>
+            <tr>
+                <th>User id</th>
+                <th>Date</th>
+                
+            </tr>
+        </thead>
+        <!-- Defines the body section of the table, where the rows will be inserted dynamically. It has an ID of "cart". -->
+        <tbody id="cart">
+
+        </tbody>
+        
+    </table>
+    <button type="button" id="contents">Show contents</button>
+    <script>
+      // Ensures that the code inside it runs only after the document is fully loaded.
+         $(document).ready(function() {
+          // Attaches a click event handler to the button with ID "contents".
+            $("#contents").click(function()
+    {
+      // Sends an AJAX request.
+        $.ajax({
+                url: "https://fakestoreapi.com/carts",
+                method: "GET",
+                // A callback function that runs if the request is successful.
+                success: function(data) {
+                    var cartContainer = $("#cart");
+                    // Clears any existing content in the table body.
+                    cartContainer.empty();                   
+                    data.forEach(function(i) {
+                      // Creates a new table row with the user ID and date from the current item.
+                        var row = `<tr>
+                            <td>${i.userId}</td>
+                            <td>${i.date}</td>
+                            
+                        </tr>`;
+                        // Appends the new row to the table body.
+                        cartContainer.append(row);
+                    });
+                },               }        );
+    });    });
+    </script>
+
+</body>
